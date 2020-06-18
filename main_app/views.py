@@ -1,25 +1,19 @@
 from django.shortcuts import render
+from .models import Show
 
-class Show:  # Note that parens are optional if not inheriting from another class
-  def __init__(self, name, num_seasons, description, imdb_rating):
-    self.name = name
-    self.num_seasons = num_seasons
-    self.description = description
-    self.imdb_rating = imdb_rating
-
-
-
-shows = [
-    Show('Schitts Creek', 5, 'Funny!', 8.4)
-]
 
 # Create your views here.
 
 def home(request):
-    return HttpResponse('<h1>HELLO</h1>')
+    return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
 
 def shows_index(request):
+    shows = Show.objects.all()
     return render(request, 'shows/index.html', {'shows': shows})
+
+def shows_detail(request, show_id):
+    show = Show.objects.get(id=show_id)
+    return render(request, 'shows/detail.html', {'show': show})
